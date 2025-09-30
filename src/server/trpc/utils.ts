@@ -15,3 +15,4 @@ export const SPOTIFY_PLAY_ENDPOINT = `${SPOTIFY_API_URL}/me/player/play`;
 export const SPOTIFY_PREVIOUS_ENDPOINT = `${SPOTIFY_API_URL}/me/player/previous`;
 export const SPOTIFY_NEXT_ENDPOINT = `${SPOTIFY_API_URL}/me/player/next`;
 export const SPOTIFY_SHUFFLE_ENDPOINT = `${SPOTIFY_API_URL}/me/player/shuffle`;
+export const SPOTIFY_VOLUME_ENDPOINT = `${SPOTIFY_API_URL}/me/player/volume`;

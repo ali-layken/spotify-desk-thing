@@ -18,7 +18,9 @@ const PlayerControlIcon: Component<Props> = (props) => {
       onClick={props.onClick}
     >
       <img class="group-hover:scale-105 " src={props.src} width={dimensions} height={dimensions} />
-      {props.showActiveIndicator && <span class="absolute -bottom-4 left-1/2 bg-white rounded-full" style={{ width: "10px", height: "10px", "margin-left": "-5px" }}></span>}
+      {props.showActiveIndicator ? (
+        <span class="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-[#1DB954] shadow-[0_0_8px_rgba(29,185,84,0.25)]"></span>
+      ) : null}
     </button>
   );
 };

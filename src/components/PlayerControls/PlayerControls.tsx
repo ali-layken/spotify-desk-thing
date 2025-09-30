@@ -9,9 +9,12 @@ import SvgSkipPrevious from "../icons/bx-skip-previous.svg";
 import SvgCheckmarkCircle from "../icons/noun-tick.svg";
 import PlayerControlIcon from "./PlayerControlIcon";
 import PlayerProgressBar from "./PlayerProgressBar";
+import VolumeSlider from "./VolumeSlider";
 
 interface PlayerControlsType {
   isSaved: boolean;
+  inline?: boolean;
+  showOnlyMain?: boolean;
 }
 
 const PlayerControls: Component<PlayerControlsType> = (props) => {
@@ -38,55 +41,112 @@ const PlayerControls: Component<PlayerControlsType> = (props) => {
   const setPlay = trpc.actions.play.useMutation(onSuccessMutator);
   const setNext = trpc.actions.next.useMutation(onSuccessMutator);
 
+  if (props.inline) {
+    // If caller only wants the primary playback controls, render a compact row
+    if (props.showOnlyMain) {
+      return (
+        <div class="flex items-center space-x-6">
+          <PlayerControlIcon
+            src={SvgShuffle}
+            isDisabled={shouldDisableControls()}
+            showActiveIndicator={nowPlaying.data?.shuffle_state}
+            onClick={() =>
+              setShuffle.mutate({ state: !nowPlaying.data?.shuffle_state })
+            }
+          />
+          <PlayerControlIcon
+            src={SvgSkipPrevious}
+            isDisabled={shouldDisableControls()}
+            enlargeIcon={true}
+            onClick={setPrevious.mutate}
+          />
+          {nowPlaying.data?.is_playing ? (
+            <PlayerControlIcon
+              src={SvgPause}
+              isDisabled={shouldDisableControls()}
+              enlargeIcon={true}
+              onClick={setPause.mutate}
+            />
+          ) : (
+            <PlayerControlIcon
+              src={SvgPlay}
+              isDisabled={shouldDisableControls()}
+              enlargeIcon={true}
+              onClick={setPlay.mutate}
+            />
+          )}
+          <PlayerControlIcon
+            src={SvgSkipNext}
+            isDisabled={shouldDisableControls()}
+            enlargeIcon={true}
+            onClick={setNext.mutate}
+          />
+          {/* Volume slider now to the right of the Next button; allow it to flex with UI */}
+          <div class="flex-1 min-w-0 md:max-w-[220px]">
+            <VolumeSlider disabled={shouldDisableControls()} />
+          </div>
+        </div>
+      );
+    }
+
+    // Full inline mode: render all icons (without progress)
+    return (
+      <div class="flex items-center space-x-6">
+        <PlayerControlIcon
+          src={SvgShuffle}
+          isDisabled={shouldDisableControls()}
+          showActiveIndicator={nowPlaying.data?.shuffle_state}
+          onClick={() =>
+            setShuffle.mutate({ state: !nowPlaying.data?.shuffle_state })
+          }
+        />
+        <PlayerControlIcon
+          src={SvgSkipPrevious}
+          isDisabled={shouldDisableControls()}
+          enlargeIcon={true}
+          onClick={setPrevious.mutate}
+        />
+        {nowPlaying.data?.is_playing ? (
+          <PlayerControlIcon
+            src={SvgPause}
+            isDisabled={shouldDisableControls()}
+            enlargeIcon={true}
+            onClick={setPause.mutate}
+          />
+        ) : (
+          <PlayerControlIcon
+            src={SvgPlay}
+            isDisabled={shouldDisableControls()}
+            enlargeIcon={true}
+            onClick={setPlay.mutate}
+          />
+        )}
+        <PlayerControlIcon
+          src={SvgSkipNext}
+          isDisabled={shouldDisableControls()}
+          enlargeIcon={true}
+          onClick={setNext.mutate}
+        />
+        <PlayerControlIcon
+          src={props.isSaved ? SvgCheckmarkCircle : SvgPlusCircle}
+          isDisabled={shouldDisableControls()}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
-      class="hidden fixed w-full left-0 bottom-0 flex items-center justify-between px-14"
+      class="fixed w-full left-0 bottom-0 flex items-center justify-center px-14"
       style={{
         "background-color": "rgba(0,0,0,0.2)",
         height: "120px",
         "align-items": "center",
       }}
     >
-      <PlayerProgressBar />
-      <PlayerControlIcon
-        src={SvgShuffle}
-        isDisabled={shouldDisableControls()}
-        showActiveIndicator={nowPlaying.data?.shuffle_state}
-        onClick={() =>
-          setShuffle.mutate({ state: !nowPlaying.data?.shuffle_state })
-        }
-      />
-      <PlayerControlIcon
-        src={SvgSkipPrevious}
-        isDisabled={shouldDisableControls()}
-        enlargeIcon={true}
-        onClick={setPrevious.mutate}
-      />
-      {nowPlaying.data?.is_playing ? (
-        <PlayerControlIcon
-          src={SvgPause}
-          isDisabled={shouldDisableControls()}
-          enlargeIcon={true}
-          onClick={setPause.mutate}
-        />
-      ) : (
-        <PlayerControlIcon
-          src={SvgPlay}
-          isDisabled={shouldDisableControls()}
-          enlargeIcon={true}
-          onClick={setPlay.mutate}
-        />
-      )}
-      <PlayerControlIcon
-        src={SvgSkipNext}
-        isDisabled={shouldDisableControls()}
-        enlargeIcon={true}
-        onClick={setNext.mutate}
-      />
-      <PlayerControlIcon
-        src={props.isSaved ? SvgCheckmarkCircle : SvgPlusCircle}
-        isDisabled={shouldDisableControls()}
-      />
+      <div class="absolute top-0 left-0 w-full">
+        <PlayerProgressBar />
+      </div>
     </div>
   );
 };

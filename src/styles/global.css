@@ -1,0 +1,31 @@
+/* Global styles: hide scrollbars across browsers but preserve scrolling behavior */
+
+/* Ensure app fills viewport */
+html, body, #app {
+  height: 100%;
+}
+
+/* Internet Explorer 10+ and old Edge */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none; /* Firefox */
+  scrollbar-color: transparent transparent;
+}
+
+/* WebKit-based browsers (Chrome, Safari, newer Edge) */
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Optional: if you want to hide only on body, change selectors above to body and body::*/
