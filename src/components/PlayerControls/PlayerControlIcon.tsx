@@ -19,7 +19,14 @@ const PlayerControlIcon: Component<Props> = (props) => {
     >
       <img class="group-hover:scale-105 " src={props.src} width={dimensions} height={dimensions} />
       {props.showActiveIndicator ? (
-        <span class="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-[#1DB954] shadow-[0_0_8px_rgba(29,185,84,0.25)]"></span>
+        <span 
+          class="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 rounded-full"
+          style={{ 
+            "background-color": "var(--accent-ui, #1DB954)",
+            "box-shadow": "0 0 8px color-mix(in srgb, var(--accent-ui, #1DB954) 25%, transparent)",
+            "transform": "translateX(-75%)"
+          }}
+        ></span>
       ) : null}
     </button>
   );

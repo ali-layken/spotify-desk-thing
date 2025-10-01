@@ -62,10 +62,10 @@ const PlayerProgressBar: Component = () => {
           <span class="text-xs opacity-75 min-w-[2.5ch] text-left">
             {formatTime(clampedProgressMs())}
           </span>
-          <div class="relative h-2 bg-black/30 rounded-full overflow-hidden flex-1">
+          <div class="relative h-2 rounded-full overflow-hidden flex-1" style={{ "background-color": "color-mix(in srgb, var(--accent-ui, #1DB954) 25%, transparent)" }}>
             <div
-              class="absolute left-0 top-0 h-full bg-[#1DB954] rounded-full"
-              style={{ width: `${Math.max(0, Math.min(100, playingProgress() * 100))}%`, transition: "width 250ms linear" }}
+              class="absolute left-0 top-0 h-full rounded-full"
+              style={{ width: `${Math.max(0, Math.min(100, playingProgress() * 100))}%`, transition: "width 250ms linear", "background-color": "var(--accent-ui, #1DB954)" }}
             />
           </div>
           <span class="text-xs opacity-75 min-w-[3.5ch] text-right">
